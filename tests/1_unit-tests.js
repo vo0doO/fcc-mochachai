@@ -14,11 +14,11 @@ suite('Unit Tests', function () {
       assert.isNotNull(1, '1 не нуль');
     });
 
-    /** 2 - Use assert.isDefined() or assert.isUndefined() to make the tests pass. **/
+    /** 2 -Используйте assert.isDefined () или assert.isUndefined (), чтобы пройти тесты. **/
     test('#isDefined, #isUndefined', function () {
-      assert.fail(null, 'null is not undefined');
-      assert.fail(undefined, 'undefined IS undefined');
-      assert.fail('hello', 'a string is not undefined');
+      assert.isDefined(null, 'ноль не является неопределенным');
+      assert.isUndefined(undefined, 'не определено IS не определено');
+      assert.isDefined('hello', 'строка не является неопределенной');
     });
 
     /** 3 - Use assert.isOk() or assert.isNotOk() to make the tests pass. **/
