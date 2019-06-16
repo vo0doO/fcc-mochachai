@@ -1,7 +1,4 @@
 {
-    "mochaExplorer.cwd": "../tests/",
-    "mochaExplorer.debuggerConfig": "Mocha All",
-    "mochaExplorer.exit": true,
-    "mochaExplorer.mochaPath": "../node_modules/mocha",
-    "mochaExplorer.launcherScript": "../node_modules/.bin/_mocha"
+    "mochaExplorer.cwd": "tests/",
+    "remote.SSH.enableHostsExplorer": true
 }
