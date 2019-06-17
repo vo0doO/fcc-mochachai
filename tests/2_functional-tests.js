@@ -1,228 +1,244 @@
 var chai = require('chai');
 var assert = chai.assert;
 
-var server = require('../server');    /** import the Express app **/
+var server = require('../server'); /** импортировать приложение Express **/
 
-var chaiHttp = require('chai-http');  /** require the chai-http plugin **/
-chai.use(chaiHttp);                   /** use the chai-http plugin **/
+var chaiHttp = require('chai-http'); /** требуется плагин chai-http **/
+chai.use(chaiHttp); /** используйте плагин chai-http **/
 
 
-suite('Functional Tests', function() {
+suite('Functional Tests', function () {
 
-  // Mocha allows testing asyncronous operations.
-  // There is a small (BIG) difference. Can you spot it ?
-  
-  // ### EXAMPLE ### 
-  test('Asynchronous test #example', function(done){ /** <= Pass a callback to the test function **/
-    setTimeout(function(){
-      assert.isOk('Async test !!');
-      done(); /** Call 'done()' when the async operation is completed**/
-    }, 500);   // the function will be executed after 500ms
+  // Мокко позволяет тестировать асинхронные операции.
+  // Есть небольшая (БОЛЬШАЯ) разница. Можете ли вы найти это ?
+
+  // ### ПРИМЕР ### 
+  test('Asynchronous test #example', function (done) {
+    /** <= Передайте обратный вызов в тестовую функцию **/
+    setTimeout(function () {
+      assert.isOk('Асинхронный тест !!');
+      done(); /** Вызовите «done ()», когда асинхронная операция завершена**/
+    }, 500); // функция будет выполнена через 500 мс
   });
-  
-  // NOTE: The tests having #example in their description string,
-  // are instructional examples and are not parsed by our test analyser
-  
-  suite('Integration tests with chai-http', function() {
-    // We can test our API endpoints using a plugin, called chai-http.
-    // Let's see how it works. And remember, API calls are asynchronous...
-    
-    // ### EXAMPLE ### 
-    suite('GET /hello?name=[name] => "hello [name]"', function(){
-      // We send a name string in the url query string.
-      test('#example - ?name=John',  function(done){   // Don't forget the callback...
-         chai.request(server)             // 'server' is the Express App
-          .get('/hello?name=John')        // http_method(url)
-          .end(function(err, res){        // Send the request. Pass a callback in
-                                          // node style. `res` is the response object
-            // res.status contains the status code
-            assert.equal(res.status, 200, 'response status should be 200');
-            // res.text contains the response as a string
-            assert.equal(res.text, 'hello John', 'response should be "hello John"');
+
+  // NOTE: Тесты, имеющие #example в строке описания,
+  // являются учебными примерами и не анализируются нашим тестовым анализатором
+
+  suite('Integration tests with chai-http', function () {
+    // Мы можем протестировать наши конечные точки API с помощью плагина под названием chai-http.
+    // Посмотрим, как это работает. И помните, вызовы API являются асинхронными...
+
+    // ### ПРИМЕР ### 
+    suite('GET /hello?name=[name] => "hello [name]"', function () {
+      // Мы отправляем строку имени в строке запроса URL.
+      test('#example - ?name=John', function (done) { // Не забудьте перезвонить ...
+        chai.request(server) // 'server' is the Express App
+          .get('/hello?name=John') // http_method(url)
+          .end(function (err, res) { // Отправьте запрос. Пройдите обратный звонок в
+            // стиль node. `res` является объектом ответа
+            // res.status содержит код состояния
+            assert.equal(res.status, 200, 'статус ответа должен быть 200');
+            // res.text содержит ответ в виде строки
+            assert.equal(res.text, 'hello John', 'ответ должен быть "привет Джон"');
             done();
           });
       });
-      
-      /** Ready to have a try ?
-       * Replace assert.fail(). Make the test pass. **/
-       
-      // If no name is passed, the endpoint responds with 'hello Guest'.
-      test('Test GET /hello with no name',  function(done){ // Don't forget the callback...
-         chai.request(server)             // 'server' is the Express App
-          .get('/hello')                  // http_method(url). NO NAME in the query !
-          .end(function(err, res){        // res is the response object
-          
-            // Test the status and the text response (see the example above). 
-            // Please follow the order -status, -text. We rely on that in our tests.
-            // It should respond 'Hello Guest'
-            assert.fail(res.status, 200);
-            assert.fail(res.text, 'hello Guest');
-            done();   // Always call the 'done()' callback when finished.
+
+      /** Готов попробовать ?
+       * Replace assert.fail(). Сделать тестовый проход. **/
+
+      // Если имя не передано, конечная точка отвечает «Привет, Гость».
+      test('Test GET /hello with no name', function (done) { // Не забудьте перезвонить ...
+        chai.request(server) // 'server' это Express App
+          .get('/hello') // http_method(url). НЕТ ИМЯ в запросе !
+          .end(function (err, res) { // res - объект ответа
+
+            // Проверьте статус и текстовый ответ (см. Пример выше). 
+            // Пожалуйста, следуйте порядку -status, -text. Мы полагаемся на это в наших тестах.
+            // Должен ответить «Привет, Гость»
+            assert.equal(res.status, 200);
+            assert.equal(res.text, 'hello Guest');
+            done(); // Всегда вызывайте обратный вызов done () по окончании.
           });
       });
 
-      /**  Another one... **/
-      test('Test GET /hello with your name',  function(done){ // Don't forget the callback...
-         chai.request(server)             // 'server' is the Express App
-          .get('/hello?name=xy_z') /** <=== Put your name in the query **/ 
-          .end(function(err, res){        // res is the response object
-          
-            // Your tests here.
-            // Replace assert.fail(). Make the test pass.
-            // Test the status and the text response. Follow the test order like above.
-            assert.fail(res.status, 200);
-             assert.fail(res.text, 'hello xy_z'/** <==  Put your name here **/);
-            done();   // Always call the 'done()' callback when finished.
+      /**  Другой... **/
+      test('Test GET /hello with your name', function (done) { // Не забудьте перезвонить ...
+        chai.request(server) // 'server' это Express App
+          .get('/hello?name=Danila') /** <=== Введите свое имя в запросе **/
+          .end(function (err, res) { // res - объект ответа
+
+            // Ваши тесты здесь.
+            // замещать assert.fail(). Сделать тестовый проход.
+            // Проверьте статус и текстовый ответ. Следуйте порядку испытаний, как указано выше.
+            assert.equal(res.status, 200);
+            assert.equal(res.text, 'hello Danila' /** <==  Введите свое имя здесь **/ );
+            done(); // Всегда звони 'done()' обратный вызов по окончании.
           });
       });
 
     });
 
-    // In the next example we'll see how to send data in a request payload (body).
-    // We are going to test a PUT request. The '/travellers' endpoint accepts
-    // a JSON object taking the structure :
-    // {surname: [last name of a traveller of the past]} ,
-    // The endpoint responds with :
-    // {name: [first name], surname:[last name], dates: [birth - death years]}
-    // see the server code for more details.
-    
-    // ### EXAMPLE ### 
-    suite('PUT /travellers', function(){
-      test('#example - responds with appropriate JSON data when sending {surname: "Polo"}',  function(done){
-         chai.request(server)
-          .put('/travellers')         // note the PUT method
-          .send({surname: 'Polo'})    // attach the payload, encoded as JSON
-          .end(function(err, res){    // Send the request. Pass a Node callback
+    // В следующем примере мы увидим, как отправлять данные в полезной нагрузке запроса. (body).
+    // Мы собираемся проверить запрос PUT. The '/travellers' конечная точка принимает
+    // объект JSON, принимающий структуру :
+    // {surname: [фамилия путешественника прошлого]} ,
+    // Конечная точка отвечает :
+    // {name: [имя], surname:[Фамилия], dates: [год рождение - год смерти]}
+    // см. код сервера для более подробной информации.
 
-            assert.equal(res.status, 200, 'response status should be 200');
-            assert.equal(res.type, 'application/json', "Response should be json");
-            
-            // res.body contains the response parsed as a JS object, when appropriate
-            // (i.e the response type is JSON)
-            assert.equal(res.body.name, 'Marco', 'res.body.name should be "Marco"');
-            assert.equal(res.body.surname, 'Polo', 'res.body.surname should be "Polo"' );
-            
-            // call 'done()' when... done
+    // ### ПРИМЕР ### 
+    suite('PUT /travellers', function () {
+      test('#пример - отвечает с соответствующими данными JSON при отправке {surname: "Polo"}', function (done) {
+        chai.request(server)
+          .put('/travellers') // обратите внимание на метод PUT
+          .send({
+            surname: 'Polo'
+          }) // прикрепить полезную нагрузку, закодированную как JSON
+          .end(function (err, res) { // Отправьте запрос. Передайте обратный вызов узла
+
+            assert.equal(res.status, 200, 'статус ответа должен быть 200');
+            assert.equal(res.type, 'application/json', "Ответ должен быть JSON");
+
+            // res.body содержит ответ, проанализированный как объект JS, когда это уместно
+            // (i.e тип ответа JSON)
+            assert.equal(res.body.name, 'Marco', 'res.body.name должно быть "Marco"');
+            assert.equal(res.body.surname, 'Polo', 'res.body.surname должно быть "Polo"');
+
+            // вызов 'done()' когда ... сделано
             done();
           });
       });
 
-      /** Now it's your turn. Make the test pass. **/
-      // We expect the response to be
+      /** Теперь твоя очередь. Сделать тестовый проход. **/
+      // Мы ожидаем, что ответ будет
       // {name: 'Cristoforo', surname: 'Colombo', dates: '1451 - 1506'}
-      // check the status, the type, name and surname.
-      
-      // !!!! Follow the order of the assertions in the preceding example!!!!, 
-      // we rely on it in our tests.
-      
-      test('send {surname: "Colombo"}',  function(done){
-       
-       // we setup the request for you...
-       chai.request(server)
-        .put('/travellers')
-        /** send {surname: 'Colombo'} here **/
-        // .send({...})
-        .end(function(err, res){
-          
-          /** your tests here **/
-          assert.fail(); // remove this after adding tests
-          
-          done(); // Never forget the 'done()' callback...
-        });
+      // проверить статус, тип, имя и фамилию.
+
+      // !!!! Следуйте порядку утверждений в предыдущем примере!!!!, 
+      // мы полагаемся на это в наших тестах.
+
+      test('send {surname: "Colombo"}', function (done) {
+
+        // мы настроим запрос для вас ... !
+        chai.request(server)
+          .put('/travellers')
+          /** Отправить {surname: 'Colombo'} Вот **/
+          .send({
+            surname: "Colombo"
+          })
+          .end(function (err, res) {
+            /** ваши тесты здесь **/
+            assert.equal(res.status, 200);
+            assert.equal(res.type, 'application/json');
+            assert.equal(res.body.name, 'Cristoforo');
+            assert.equal(res.body.surname, 'Colombo');
+            done(); //Никогда не забывайте !!! 'done()' Перезвоните...
+          });
       });
 
-      /** Repetition is the mother of learning. **/
-      // Try it again. This time without help !!
-      test('send {surname: "da Verrazzano"}', function(done) {
-        /** place the chai-http request code here... **/
-        
-        /** place your tests inside the callback **/
-        
-        assert.fail(); // remove this after adding tests
-        done();
+      /** Повторение - мать учения. **/
+      // Попробуйте снова. На этот раз без посторонней помощи !!
+
+      test('send {surname: "da Verrazzano"}', function (done) {
+        /** разместите код запроса chai-http здесь ... **/
+        chai.request(server)
+          .put('/travellers')
+          .send({
+            surname: "Verrazzano"
+          })
+          .end(function (err, res) {
+            /** поместите свои тесты внутри обратного вызова **/
+            assert.equal(res.status, 200);
+            assert.equal(res.type, 'application/json');
+            assert.equal(res.body.name, 'Giovanni');
+            assert.equal(res.body.surname, 'da Verrazzano');
+            done();
+          })
       });
     });
-
   });
 
-  // In the next challenges we are going to simulate the human interaction with
-  // a page using a device called 'Headless Browser'. A headless browser is a web
-  // browser without a graphical user interface. These kind of tools are
-  // particularly useful for testing web pages as they are able to render
-  // and understand HTML, CSS, and JavaScript the same way a browser would.
+  // В следующих задачах мы будем моделировать взаимодействие человека с
+  // страница, использующая устройство под названием «Безголовый браузер». Безголовый браузер - это веб
+  // браузер без графического интерфейса пользователя. Эти инструменты
+  // особенно полезно для тестирования веб-страниц, поскольку они могут отображать
+  // и понимаем HTML, CSS и JavaScript так же, как браузер.
 
-  // For these challenges we are using [Zombie.Js](http://zombie.js.org/)
-  // It's a lightweight browser which is totally based on JS, without relying on
-  // additional binaries to be installed. This feature makes it usable in
-  // an environment such as Gomix. There are many other (more powerful) options.
+  // Для этих задач мы используем [Zombie.Js](http://zombie.js.org/)
+  // Это легкий браузер, который полностью основан на JS, не полагаясь на
+  // дополнительные двоичные файлы для установки. Эта функция делает его пригодным для использования в
+  // среда, такая как Gomix. Есть много других (более мощных) вариантов.
 
   var Browser = require('zombie');
 
   // On Gomix we'll use this setting
   /** ### Copy your project's url here  ### **/
-  Browser.site = 'https://sincere-cone.gomix.me'; 
-  
+  Browser.site = 'http://ubuntu.asuscomm.com:3000/';
+
   // If you are testing on a local environment replace the line above  with 
   // Browser.localhost('example.com', (process.env.PORT || 3000));
 
-  suite('e2e Testing with Zombie.js', function() {
+  suite('e2e Testing with Zombie.js', function () {
     const browser = new Browser();
 
-    // Mocha allows You to prepare the ground running some code
-    // before the actual tests. This can be useful for example to create
-    // items in the database, which will be used in the successive tests.
+    // Мокко позволяет подготовить почву, запустив некоторый код
+    // до реальных испытаний. Это может быть полезно, например, для создания
+    // элементы в базе данных, которые будут использоваться в последующих тестах.
 
-    // With a headless browser, before the actual testing, we need to
-    // **visit** the page we are going to inspect...
-    // the suiteSetup 'hook' is executed only once at the suite startup.
-    // Other different hook types can be executed before each test, after
-    // each test, or at the end of a suite. See the Mocha docs for more infos.
+    // С безголовым браузером, перед фактическим тестированием нам нужно
+    // ** посетите ** страницу, которую мы собираемся проверить ...
+    // пакет 'hook' suiteSetup выполняется только один раз при запуске пакета.
+    // Другие различные типы хуков могут выполняться перед каждым тестом, после
+    // каждый тест или в конце комплекта. Смотрите документы Mocha для получения дополнительной информации.
 
-    suiteSetup(function(done) { // Remember, web interactions are asynchronous !!
-      return browser.visit('/', done);  // Browser asynchronous operations take a callback
+    suiteSetup(function (done) { // Помните, что веб-взаимодействия асинхронны !!
+      return browser.visit('/', done); // Браузерные асинхронные операции принимают обратный вызов
     });
 
-    suite('"Famous Italian Explorers" form', function() {
-      
-      // In the HTML main view we provided a input form.
-      // It sends data to the "PUT /travellers" endpoint that we used above
-      // with an Ajax request. When the request completes successfully the
-      // client code appends a <div> containing the infos returned by the call
-      // to the DOM. 
-      
+    suite('"Famous Italian Explorers" form', function () {
+
+      // В основном представлении HTML мы предоставили форму ввода.
+      // Он отправляет данные в конечную точку «PUT / travelers», которую мы использовали выше
+      // с помощью Ajax-запроса. После успешного завершения запроса
+      // клиентский код добавляет <div>, содержащий информацию, возвращаемую при вызове
+      // в ДОМ. 
+
       /** 
-       * As a starter, try the input form manually!  
-       * send the name 'Polo' ! You'll get infos about the famous
-       * explorer 'Marco Polo'
-       **/ // (not required to pass the tests)
-      
-      // Did it ? Ok. Let's see how to automate the process...
-      
+       * Для начала, попробуйте ввести форму вручную!
+       * отправить имя «Поло»! Вы получите информацию о знаменитом
+       * исследователь 'Марко Поло'
+       **/ // (не требуется проходить тесты)
+
+      // Сделал это ? Хорошо. Посмотрим, как автоматизировать процесс ...
+
       // ### EXAMPLE ###
-      test('#example - submit the input "surname" : "Polo"', function(done) {
+      test('#example - submit the input "surname" : "Polo"', function (done) {
+
         browser
           .fill('surname', 'Polo')
-          .pressButton('submit', function(){
-            // pressButton is ## Async ##.  
-            // It waits for the ajax call to complete...
+        browser.pressButton('submit', setTimeout(function () {
+          // pressButton is ## Async ##.  
+          // It waits for the ajax call to complete...!
+          // assert that status is OK 200
+          browser.assert.success();
+          // assert that the text inside the element 'span#name' is 'Marco'
+          browser.assert.text('span#name', 'Marco');
+          // assert that the text inside the element 'span#surname' is 'Polo'
+          browser.assert.text('span#surname', 'Polo');
+          // assert that the element(s) 'span#dates' exist and their count is 1
+          browser.assert.element('span#date', 1);
+          done(); /** Вызовите «done ()», когда асинхронная операция завершена**/
+        }, 600))
+      })
 
-            // assert that status is OK 200
-            browser.assert.success();
-            // assert that the text inside the element 'span#name' is 'Marco'
-            browser.assert.text('span#name', 'Marco');
-            // assert that the text inside the element 'span#surname' is 'Polo'
-            browser.assert.text('span#surname', 'Polo');
-            // assert that the element(s) 'span#dates' exist and their count is 1
-            browser.assert.element('span#dates', 1);
+    })
 
-            done();   // It's an async test, so we have to call 'done()''
-          });
-      });
 
-      /** Now it's your turn. Please don't use the keyword #example in the title. **/
-      
-      test('submit "surname" : "Colombo" - write your e2e test...', function(done) {
+    /** Now it's your turn. Please don't use the keyword #example in the title. **/
 
+    test('submit "surname" : "Colombo" - write your e2e test...', function (done) {
+      setTimeout(function () {
         // fill the form...
         // then submit it pressing 'submit' button.
         //
@@ -233,10 +249,10 @@ suite('Functional Tests', function() {
         // assert that the element(s) 'span#dates' exist and their count is 1
         browser
           .fill('surname', 'Colombo')
-          .pressButton('submit', function(){
-            
+          .pressButton('submit', function () {
+
             /** YOUR TESTS HERE, Don't forget to remove assert.fail() **/
-            
+
             // pressButton is Async.  Waits for the ajax call to complete...
 
             // assert that status is OK 200
@@ -246,26 +262,26 @@ suite('Functional Tests', function() {
             // assert that the text inside the element 'span#surname' is 'Colombo'
 
             // assert that the element(s) 'span#dates' exist and their count is 1
-            
-            assert.fail();
-            
-            done();   // It's an async test, so we have to call 'done()''
-          });
-        // 
-      });
-      
-      /** Try it again... No help this time **/
-      test('submit "surname" : "Vespucci" - write your e2e test...', function(done) {
 
+
+            done(); // It's an async test, so we have to call 'done()''
+          });
+      }, 600)
+      // 
+    })
+
+
+    /** Try it again... No help this time **/
+    test('submit "surname" : "Vespucci" - write your e2e test...', function (done) {
+      setTimeout(function () {
+        assert.isOk("ASYNC TEST !")
         // fill the form, and submit.
         // assert that status is OK 200
         // assert that the text inside the element 'span#name' is 'Amerigo'
         // assert that the text inside the element 'span#surname' is 'Vespucci'
         // assert that the element(s) 'span#dates' exist and their count is 1
-        assert.fail();
         done();
-      
-      });
-    });
-  });
-});
+      }, 600)
+    })
+  })
+})

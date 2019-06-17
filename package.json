@@ -7,7 +7,8 @@
 	"description": "What am I about?",
 	"main": "server.js",
 	"scripts": {
-		"start": "/home/vo0/.vscode-server-insiders/data/User/freecodecamp/boilerplate-mochachai/node_modules/.bin/nodemon server.js --inspect --watch ./tests/1_unit-tests.js"
+		"start": "node server.js",
+		"debug": "nodemon --inspect --watch ./tests/2_functional-tests.js"
 	},
 	"dependencies": {
 		"body-parser": "^1.15.2",
@@ -16,6 +17,7 @@
 		"cors": "^2.8.1",
 		"express": "^5.0.0-alpha.2",
 		"mocha": "^6.1.4",
+		"nyc": "^14.1.1",
 		"zombie": "^6.1.4"
 	},
 	"engines": {

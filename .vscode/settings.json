@@ -1,4 +1,11 @@
 {
-    "mochaExplorer.cwd": "tests/",
-    "remote.SSH.enableHostsExplorer": true
+    "mochaExplorer.cwd": "/",
+    "remote.SSH.enableHostsExplorer": true,
+    "bashIde.path": "home/vo0/.nvm/versions/node/v8.16.0/bin/bash-language-server",
+    "bashIde.explainshellEndpoint": "http://srv-hp.ddns.net:5000",
+    "mochaExplorer.debuggerPort": 9229,
+    "eslint.enable": false,
+    "mochaExplorer.files": "**/*.spec.js",
+    "mochaExplorer.mochaPath": "node_modules/mocha",
+    "mocha.files.glob": "**/*.spec.js"
 }

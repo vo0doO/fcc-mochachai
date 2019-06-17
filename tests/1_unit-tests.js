@@ -1,3 +1,4 @@
+// @ts-nocheck
 var chai = require('chai');
 var assert = chai.assert;
 
@@ -98,87 +99,87 @@ suite('Unit Tests', function () {
 
     /** 8 - .isAbove() => a > b , .isAtMost() => a <= b **/
     test('#isAbove, #isAtMost', function () {
-      assert.fail('hello'.length, 5);
-      assert.fail(1, 0);
-      assert.fail(Math.PI, 3);
-      assert.fail(1 - Math.random(), 1);
+      assert.isAtMost('hello'.length, 5);
+      assert.isAbove(1, 0);
+      assert.isAbove(Math.PI, 3);
+      assert.isAtMost(1 - Math.random(), 1);
     });
 
     /** 9 - .isBelow() => a < b , .isAtLeast =>  a >= b **/
     test('#isBelow, #isAtLeast', function () {
-      assert.fail('world'.length, 5);
-      assert.fail(2 * Math.random(), 0);
-      assert.fail(5 % 2, 2);
-      assert.fail(2 / 3, 1);
+      assert.isAtLeast('world'.length, 5);
+      assert.isAtLeast(2 * Math.random(), 0);
+      assert.isBelow(5 % 2, 2);
+      assert.isBelow(2 / 3, 1);
     });
 
     /** 10 - .approximately **/
-    // .approximately(actual, expected, range, [message])
+    // .приблизительно(фактический, ожидаемый, диапазон, [сообщение])
     // actual = expected +/- range
-    // Choose the minimum range (3rd parameter) to make the test always pass
-    // it should be less than 1
+    // Выберите минимальный диапазон (третий параметр), чтобы тест всегда проходил
+    //  должно быть меньше 1
     test('#approximately', function () {
-      assert.approximately(weirdNumbers(0.5), 1, /*edit this*/ 0);
-      assert.approximately(weirdNumbers(0.2), 1, /*edit this*/ 0);
+      assert.approximately(weirdNumbers(0.5), 1, 0.999);
+      assert.approximately(weirdNumbers(0.2), 1, 0.999);
     });
   });
 
   // -----------------------------------------------------------------------------
 
-  // These variables are used in the tests. Don't Edit them.
+  // Эти переменные используются в тестах. Не редактируйте их.!
   var winterMonths = ['dec,', 'jan', 'feb', 'mar'];
   var backendLanguages = ['php', 'python', 'javascript', 'ruby', 'asp'];
   suite('Arrays', function () {
 
-    /** 11 - #isArray vs #isNotArray **/
+    /** 11 - #isArray против #isNotArray **/
     test('#isArray, #isNotArray', function () {
-      assert.fail('isThisAnArray?'.split(''), 'String.prototype.split() returns an Array');
-      assert.fail([1, 2, 3].indexOf(2), 'indexOf returns a number.');
+      assert.isArray('isThisAnArray?'.split(''), 'String.prototype.split() возвращает массив');
+      assert.isNotArray([1, 2, 3].indexOf(2), 'indexOf возвращает число.');
     });
 
-    /** 12 - #include vs #notInclude **/
+    /** 12 - #include против #notInclude **/
     test('Array #include, #notInclude', function () {
-      assert.fail(winterMonths, 'jul', "It's summer in july...");
-      assert.fail(backendLanguages, 'javascript', 'JS is a backend language !!');
+      assert.notInclude(winterMonths, 'jul', "В июле лето ...");
+      assert.include(backendLanguages, 'javascript', 'JS - это язык бэкэнда!');
     });
   });
 
   // -----------------------------------------------------------------------------
 
-  // These variables are used in the tests. Don't Edit them.
+  // Эти переменные используются в тестах. Не редактируйте их.
   var formatPeople = function (name, age) {
     return '# name: ' + name + ', age: ' + age + '\n';
   };
   suite('Strings', function () {
 
-    /** 13 - #isString asserts that the actual value is a string. **/
+    /** 13 - #isString утверждает, что фактическое значение является строкой. **/
     test('#isString, #isNotString', function () {
-      assert.fail(Math.sin(Math.PI / 4), 'a float is not a string');
-      assert.fail(process.env.PATH, 'env vars are strings (or undefined)');
-      assert.fail(JSON.stringify({
+      assert.isNotString(Math.sin(Math.PI / 4), 'число с точкой не строка');
+      assert.isString(process.env.PATH, 'env vars - это строки(или неопределенные)');
+      assert.isString(JSON.stringify({
         type: 'object'
-      }), 'a JSON is a string');
+      }), 'JSON - это строка');
     });
 
-    /** 14 - #include (on #notInclude ) works for strings too !! **/
-    // It asserts that the actual string contains the expected substring
+    /** 14 - #include (на #notInclude ) работает для струн тоже !! **/
+    // Он утверждает, что фактическая строка содержит ожидаемую подстроку
     test('String #include, #notInclude', function () {
-      assert.fail('Arrow', 'row', "Arrow contains row...");
-      assert.fail('dart', 'queue', "But a dart doesn't contain a queue");
+      assert.include('Arrow', 'row', "Стрелка содержит строку ...");
+      assert.notInclude('dart', 'queue', "Но дротик не содержит очереди");
     });
 
-    /** 15 - #match Asserts that the actual value **/
-    // matches the second argument regular expression.
+    /** 15 - #match Утверждает, что фактическая стоимость **/
+    // соответствует второму аргументу регулярного выражения.!!!
     test('#match, #notMatch', function () {
       var regex = /^#\sname\:\s[\w\s]+,\sage\:\s\d+\s?$/;
-      assert.fail(formatPeople('John Doe', 35), regex);
-      assert.fail(formatPeople('Paul Smith III', 'twenty-four'), regex);
+      assert.match(formatPeople('John Doe', 35), regex);
+      assert.notMatch(formatPeople('Paul Smith III', 'twenty-four'), regex);
     });
   });
 
   // ----------------------------------------------------------------------------- 
 
-  // These variables are used in the tests. Don't Edit them.
+  // Эти переменные используются в тестах. Не редактируйте их.
   var Car = function () {
     this.model = 'cedan';
     this.engines = 1;
@@ -197,34 +198,34 @@ suite('Unit Tests', function () {
 
   suite('Objects', function () {
 
-    /** 16 - #property asserts that the actual object has a given property. **/
-    // Use #property or #notProperty where appropriate
+    /** 16 - #property утверждает, что фактический объект имеет данное свойство. **/
+    // При необходимости используйте #property или #notProperty
     test('#property, #notProperty', function () {
-      assert.fail(myCar, 'wings', 'A car has not wings');
-      assert.fail(airlinePlane, 'engines', 'planes have engines');
-      assert.fail(myCar, 'wheels', 'Cars have wheels');
+      assert.notProperty(myCar, 'wings', 'У машины нет крыльев');
+      assert.property(airlinePlane, 'engines', 'самолеты имеют двигатели');
+      assert.property(myCar, 'wheels', 'Автомобили имеют колеса');
     });
 
     test('#typeOf, #notTypeOf', function () {
 
-      /** 17 #typeOf asserts that value’s type is the given string, **/
-      // as determined by Object.prototype.toString.
-      // Use #typeOf or #notTypeOf where appropriate
-      assert.fail(myCar, 'object');
-      assert.fail(myCar.model, 'string');
-      assert.fail(airlinePlane.wings, 'string');
-      assert.fail(airlinePlane.engines, 'array');
-      assert.fail(myCar.wheels, 'number');
+      /** 17 #typeOf утверждает, что тип значения является заданной строкой, **/
+      // как определено Object.prototype.toString.
+      // использование #typeOf или же #notTypeOf где уместно
+      assert.typeOf(myCar, 'object');
+      assert.typeOf(myCar.model, 'string');
+      assert.notTypeOf(airlinePlane.wings, 'string');
+      assert.typeOf(airlinePlane.engines, 'array');
+      assert.typeOf(myCar.wheels, 'number');
     });
 
     test('#instanceOf, #notInstanceOf', function () {
 
-      /** 18 #instanceOf asserts that an object is an instance of a constructor **/
-      // Use #instanceOf or #notInstanceOf where appropriate
-      assert.fail(myCar, Plane);
-      assert.fail(airlinePlane, Plane);
-      assert.fail(airlinePlane, Object, 'everything is an Object');
-      assert.fail(myCar.wheels, String);
+      /** 18 #instanceOf утверждает, что объект является экземпляром конструктора **/
+      // использование #instanceOf или же #notInstanceOf где уместно
+      assert.notInstanceOf(myCar, Plane);
+      assert.instanceOf(airlinePlane, Plane);
+      assert.instanceOf(airlinePlane, Object, 'все является объектом');
+      assert.notInstanceOf(myCar.wheels, String);
     });
   });
 
@@ -232,6 +233,6 @@ suite('Unit Tests', function () {
 });
 
 /** 
- * Good Job, You are done here !!! 
- *  Please go to the file "2_functional_tests.js" ... 
+ *  Хорошая работа, вы сделали здесь! 
+ *  Пожалуйста, перейдите в файл "2_functional_tests.js" ... 
  **/
