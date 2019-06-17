@@ -85,7 +85,7 @@ suite('Functional Tests', function () {
     // {surname: [фамилия путешественника прошлого]} ,
     // Конечная точка отвечает :
     // {name: [имя], surname:[Фамилия], dates: [год рождение - год смерти]}
-    // см. код сервера для более подробной информации.
+    // см. код сервера для более подробной информации !.
 
     // ### ПРИМЕР ### 
     suite('PUT /travellers', function () {
@@ -115,7 +115,7 @@ suite('Functional Tests', function () {
       // {name: 'Cristoforo', surname: 'Colombo', dates: '1451 - 1506'}
       // проверить статус, тип, имя и фамилию.
 
-      // !!!! Следуйте порядку утверждений в предыдущем примере!!!!, 
+      // !!!! Следуйте порядку утверждений в предыдущем примере!!!!
       // мы полагаемся на это в наших тестах.
 
       test('send {surname: "Colombo"}', function (done) {
@@ -137,7 +137,7 @@ suite('Functional Tests', function () {
           });
       });
 
-      /** Повторение - мать учения. **/
+      /** Повторение - мать учения.! **/
       // Попробуйте снова. На этот раз без посторонней помощи !!
 
       test('send {surname: "da Verrazzano"}', function (done) {
@@ -254,7 +254,7 @@ suite('Functional Tests', function () {
             /** YOUR TESTS HERE, Don't forget to remove assert.fail() **/
 
             // pressButton is Async.  Waits for the ajax call to complete...
-
+            console.log("GJIJK")
             // assert that status is OK 200
 
             // assert that the text inside the element 'span#name' is 'Cristoforo'

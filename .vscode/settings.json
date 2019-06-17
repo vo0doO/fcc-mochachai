@@ -7,5 +7,6 @@
     "eslint.enable": false,
     "mochaExplorer.files": "**/*.spec.js",
     "mochaExplorer.mochaPath": "node_modules/mocha",
-    "mocha.files.glob": "**/*.spec.js"
+    "mocha.files.glob": "**/*.spec.js",
+    "mocha.subdirectory": "tests"
 }
